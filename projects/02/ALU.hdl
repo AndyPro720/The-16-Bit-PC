@@ -1,0 +1,56 @@
+/**
+ * The ALU (Arithmetic Logic Unit).
+ * Computes one of the following functions:
+ * x+y, x-y, y-x, 0, 1, -1, x, y, -x, -y, !x, !y,
+ * x+1, y+1, x-1, y-1, x&y, x|y on two 16-bit inputs, 
+ * according to 6 input bits denoted zx,nx,zy,ny,f,no.
+ * In addition, the ALU computes two 1-bit outputs:
+ * if the ALU output == 0, zr is set to 1; otherwise zr is set to 0;
+ * if the ALU output < 0, ng is set to 1; otherwise ng is set to 0.
+ */
+
+// Implementation: the ALU logic manipulates the x and y inputs
+// and operates on the resulting values, as follows:
+// if (zx == 1) set x = 0        // 16-bit constant
+// if (nx == 1) set x = !x       // bitwise not
+// if (zy == 1) set y = 0        // 16-bit constant
+// if (ny == 1) set y = !y       // bitwise not
+// if (f == 1)  set out = x + y  // integer 2's complement addition
+// if (f == 0)  set out = x & y  // bitwise and
+// if (no == 1) set out = !out   // bitwise not
+// if (out == 0) set zr = 1
+// if (out < 0) set ng = 1
+
+CHIP ALU {
+    IN  
+        x[16], y[16],  // 16-bit inputs        
+        zx, // zero the x input?
+        nx, // negate the x input?
+        zy, // zero the y input?
+        ny, // negate the y input?
+        f,  // compute out = x + y (if 1) or x & y (if 0)
+        no; // negate the out output?
+
+    OUT 
+        out[16], // 16-bit output
+        zr, // 1 if (out == 0), 0 otherwise
+        ng; // 1 if (out < 0),  0 otherwise
+
+    PARTS:
+   Mux16(a=x, b=false, sel=zx, out=x1);         //if zx conditon
+   Not16(in=x1, out=notx);                       //not x
+   Mux16(a=x1, b=notx, sel=nx, out=x2);         //if nx condition
+   Mux16(a=y, b=false, sel=zy, out=y1);         //if zy conditon
+   Not16(in=y1, out=noty);                       //not y
+   Mux16(a=y1, b=noty, sel=ny, out=y2);         //if ny conditon
+   Add16(a=x2, b=y2, out=f1);                    //computing f1 x+y
+   And16(a=x2, b=y2, out=f0);                    //computing f0 x&y
+   Mux16(a=f0, b=f1, sel=f, out=out1);          //if f condition
+   Not16(in=out1, out=Notout1);                 //not out1
+   Mux16(a=out1, b=Notout1, sel=no, out=out, out[0..7]=varout1, out[8..15]=varout2 , out[15]=zout);   //if 'no' conditon, Final Output and two sub-buses for OR, and one sub bus for negative check.
+   Or8Way(in=varout1, out=Orout1);              //calculating whether zero #1
+   Or8Way(in=varout2, out=Orout2);              //calculating wether zero #2
+   Or(a=Orout1, b=Orout2, out=Orout);           //calculating for zero final
+   Mux(a=true, b=false, sel=Orout, out=zr);     //if zr condtion
+   Mux(a=false, b=true, sel=zout, out=ng);      //if ng conditon
+}

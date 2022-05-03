@@ -1,0 +1,24 @@
+/**
+ * Memory of 64 registers, each 16 bit-wide. Out holds the value
+ * stored at the memory location specified by address. If load==1, then 
+ * the in value is loaded into the memory location specified by address 
+ * (the loaded value will be emitted to out from the next time step onward).
+ */
+
+CHIP RAM64 {
+    IN in[16], load, address[6];
+    OUT out[16];
+
+    PARTS:
+		
+    DMux8Way(in=load, sel=address[3..5], a=in0, b=in1, c=in2, d=in3, e=in4, f=in5, g=in6, h=in7);  //the 3 msbs form an octal pattern
+    RAM8(in=in, address=address[0..2], load=in0, out=out0);
+    RAM8(in=in, address=address[0..2], load=in1, out=out1);
+    RAM8(in=in, address=address[0..2], load=in2, out=out2);  //selecting the RAM, and if lies within the octal cycle, load=1, else load=0
+    RAM8(in=in, address=address[0..2], load=in3, out=out3);  //the lsbs alternate from 0 to 7 for every octal cycle
+    RAM8(in=in, address=address[0..2], load=in4, out=out4);  
+    RAM8(in=in, address=address[0..2], load=in5, out=out5);
+    RAM8(in=in, address=address[0..2], load=in6, out=out6);
+    RAM8(in=in, address=address[0..2], load=in7, out=out7);
+	Mux8Way16(a=out0, b=out1, c=out2, d=out3, e=out4, f=out5, g=out6, h=out7, sel=address[3..5], out=out); //picking the RAM output, based on octal cycle
+}

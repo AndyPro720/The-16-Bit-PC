@@ -1,0 +1,13 @@
+/**
+ * 16-bit bitwise Or:
+ * for i = 0..15 out[i] = (a[i] or b[i])
+ */
+
+CHIP And16 {
+    IN a[16], b[16];
+    OUT out[16];
+
+    PARTS:
+        Nand16 (a=a, b=b, out=temp);
+        Not16e (in=temp, out=out);
+}

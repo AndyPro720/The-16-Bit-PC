@@ -1,0 +1,13 @@
+/**
+ * 16-bit Not:
+ * for i=0..15: out[i] = not in[i]
+ */
+
+CHIP Not16e {
+    IN in[16];
+    OUT out[16];
+
+    PARTS:
+        Nand16 (a=in, b=in, out=out);
+        
+}

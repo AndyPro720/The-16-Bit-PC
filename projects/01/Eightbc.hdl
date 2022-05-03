@@ -1,0 +1,13 @@
+/**
+ * This chip intends to convert a given 16 bit input to 8 bit output
+ */
+
+ CHIP Eightbc {
+    IN in[16];
+    OUT out[8];
+
+    PARTS:
+        Not16 (in=in, out=temp);
+        Not16 (in=temp, out[0..7]=out);
+ 
+ }

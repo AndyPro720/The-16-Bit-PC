@@ -1,0 +1,23 @@
+/**
+ * Memory of 4K registers, each 16 bit-wide. Out holds the value
+ * stored at the memory location specified by address. If load==1, then 
+ * the in value is loaded into the memory location specified by address 
+ * (the loaded value will be emitted to out from the next time step onward).
+ */
+
+CHIP RAM4K {
+    IN in[16], load, address[12];
+    OUT out[16];
+
+    PARTS:
+    DMux8Way(in=load, sel=address[9..11], a=in0, b=in1, c=in2, d=in3, e=in4, f=in5, g=in6, h=in7);  //the 3 msbs form an octal pattern
+    RAM512(in=in, address=address[0..8], load=in0, out=out0);
+    RAM512(in=in, address=address[0..8], load=in1, out=out1);
+    RAM512(in=in, address=address[0..8], load=in2, out=out2);  //selecting the RAM, and if lies within the octal cycle, load=1, else load=0
+    RAM512(in=in, address=address[0..8], load=in3, out=out3);  //the 9 lsbs alternate from 0 to 512 for every octal cycle
+    RAM512(in=in, address=address[0..8], load=in4, out=out4);  
+    RAM512(in=in, address=address[0..8], load=in5, out=out5);
+    RAM512(in=in, address=address[0..8], load=in6, out=out6);
+    RAM512(in=in, address=address[0..8], load=in7, out=out7);
+    Mux8Way16(a=out0, b=out1, c=out2, d=out3, e=out4, f=out5, g=out6, h=out7, sel=address[9..11], out=out); //gives the desired RAM as output on 3msb logic
+}

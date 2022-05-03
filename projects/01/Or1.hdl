@@ -1,0 +1,13 @@
+/**
+ * Or gate:
+ * out = 1 if (a == 1 or b == 1)
+ *       0 otherwise
+ */
+
+CHIP Or1 {
+    IN a, b;
+    OUT out;
+
+    PARTS:
+      Mux(sel=a, a=b, b=true, out=out);
+}

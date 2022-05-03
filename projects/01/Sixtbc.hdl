@@ -1,0 +1,12 @@
+/**
+ * This chip intends to convert a given 8 bit input to 16 bit output
+ */
+
+ CHIP Sixtbc {
+    IN in[8];
+    OUT out[16];
+
+    PARTS:
+        Not8 (in=in, out=temp);
+        Not8 (in=temp, out=out[0..7]);
+ }
