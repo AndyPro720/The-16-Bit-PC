@@ -2,7 +2,7 @@
 
 This project is aimed at creating a 16 bit computer from the ground up starting with only NAND gates in a virtual environment(HDL). 
 
-My notes(blog) for the course:  https://scientia72.notion.site/From-NAND-to-Tetris-1-561e43324a0145eaaa1a2d5aefbdcf74 
+[My notes(blog) for the course](https://scientia72.notion.site/From-NAND-to-Tetris-1-561e43324a0145eaaa1a2d5aefbdcf74)
 
 
 ## Details
@@ -13,6 +13,8 @@ The project is part of a course developed by Noam Nisan and Shimon Schocken, nam
 
 
 This part(first) of the course focuses on the creation of the hardware components and abstracting a software layer towards the near end.(Machine and Assembly Language) 
+
+---
 
 Here’s a brief summary on what all we cover throughout:
 
@@ -28,6 +30,6 @@ Here’s a brief summary on what all we cover throughout:
 - Implement a basic memory controller to select the respective memory device(among the three) when specific register is addressed.
 
 - Programmed a two-pass assembler that is capable of storing variables, keywords, identifiers and program instruction references. Deals with whitespace and comments and converts the worded assembly to 16 bit binary instructions.
-- Here's a link to the slightly deatiled summary on what to expect: https://scientia72.notion.site/Course-Details-1ff1573dc8af4d4cbb09d0b083bc4b57
+- [Here's a link to the slightly deatiled summary on what to expect](https://scientia72.notion.site/Course-Details-1ff1573dc8af4d4cbb09d0b083bc4b57)
 
 
