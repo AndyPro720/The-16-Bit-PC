@@ -7,7 +7,7 @@ My notes(blog) for the course:  https://scientia72.notion.site/From-NAND-to-Tetr
 
 ## Details
 
-[PC Schematic](Schematics/Hack Pc architecture[350].jpg)
+![Alt text](Schematics/PC_Architecture.jpg?raw=true "Title")
 
 The project is part of a course developed by Noam Nisan and Shimon Schocken, named NandtoTetris. Link: https://www.nand2tetris.org/
 
@@ -16,7 +16,7 @@ This part(first) of the course focuses on the creation of the hardware component
 
 Here’s a brief summary on what all we cover throughout:
 
-- Create gates ranging from AND to Or8Way, Mux16 and Dmux8Wayin HDL.
+- Create gates ranging from AND to Or8Way, Mux16 and Dmux8Way in HDL.
 - Create a fully functioning ALU with 18 distinct computable functions over two 16 bit inputs.
 - Created a series of RAM chips from 8 to 16K memory. Work on creating a addressing mechanism to select a specific register.
 
